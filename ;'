@@ -1,0 +1,21 @@
+4 310 200 100
+
+die = 310 
+eat 200
+sleep 100
+
+4 phil
+
+4 fourchettes
+
+start = 2 eat commecer a 0
+ 200ms = 2 eat cemmencer a 200
+ 400
+
+ 4 210 100 100
+
+ start 2 eat 0
+ 100 2 est 100
+ 200 2 eat  200
+ 300 2 rs
+
