@@ -1,12 +1,31 @@
 #include "philo_one.h"
 
-int error_return(char *str)
+int	error_return(char *str)
 {
 	printf("%s\n", str);
 	return (0);
 }
 
-int		ft_atoi(const char *nptr)
+void	my_usleep(int time)
+{
+	struct timeval	t;
+	struct timeval	act;
+	long			mili;
+	long			curr_mili;
+
+	gettimeofday(&t, NULL);
+	mili = (1000000 * t.tv_sec + t.tv_usec + time) / 1000;
+	gettimeofday(&act, NULL);
+	curr_mili = (1000000 * act.tv_sec + act.tv_usec) / 1000;
+	while (curr_mili < mili)
+	{
+		usleep(50);
+		gettimeofday(&act, NULL);
+		curr_mili = (1000000 * act.tv_sec + act.tv_usec) / 1000;
+	}
+}
+
+int	ft_atoi(const char *nptr)
 {
 	int				i;
 	int				signe;
@@ -31,9 +50,11 @@ int		ft_atoi(const char *nptr)
 	return (nb * signe);
 }
 
-int		ft_isdigit(char *str)
+int	ft_isdigit(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
@@ -43,10 +64,11 @@ int		ft_isdigit(char *str)
 	return (1);
 }
 
-long get_time(long old_time)
+void	print_state(t_philo *s, char *str)
 {
-	struct timeval time;
-	gettimeofday(&time, NULL);
-	long new_time = (1000000 * time.tv_sec + time.tv_usec) / 1000;
-	return (new_time - old_time);
+	pthread_mutex_lock(s->info->print);
+	gettimeofday(&s->info->time, NULL);
+	printf("%ld		Philo number %d %s\n", ((1000000 * s->info->time.tv_sec \
+	+ s->info->time.tv_usec) / 1000) - s->info->time_start, s->nb, str);
+	pthread_mutex_unlock(s->info->print);
 }
