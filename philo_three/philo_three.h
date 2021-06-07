@@ -1,5 +1,5 @@
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 
 # include <stdio.h>
 # include <string.h>
@@ -7,6 +7,8 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <semaphore.h>
+# include <signal.h>
 
 typedef struct s_env
 {
@@ -18,10 +20,10 @@ typedef struct s_env
 	int				nbT_eat;
 	int				nb_eat;
 	int				error;
-	int				*fork;
-	pthread_mutex_t	*fork_m;
+	sem_t			*fork;
 	pthread_t		*pthread;
-	pthread_mutex_t	*print;
+	sem_t			*print;
+	pid_t			*pid;
 	struct timeval	time;
 }				t_env;
 
@@ -32,16 +34,17 @@ typedef struct s_philo
 	int				it;
 	int				has_eat;
 	int				has_sleep;
-	pthread_mutex_t	*else_death;
+	sem_t			*else_death;
 	long			time_last_eat;
 	int				left;
 	int				right;
+	int				nb_fork;
 	int				is_dead;
 	int				boucle;
 	t_env			*info;
 }				t_philo;
 
-int		error_return(char *str);
+int		error_return(char *str, t_env *s);
 void	init_env(t_env *s);
 void	init_env2(t_env *s);
 void	take_fork(t_philo *s);
@@ -54,5 +57,6 @@ void	start_loop(t_env *s, t_philo *philo);
 void	my_usleep(int time);
 void	print_state(t_philo *s, char *str);
 void	think(t_philo *s);
+void	*loop(t_philo *s);
 
 #endif

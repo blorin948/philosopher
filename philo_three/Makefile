@@ -1,17 +1,17 @@
 $(VERBOSE).SILENT:
 
-NAME =	philo_one
+NAME =	philo_three
 
 FLAGS = gcc -Wall -Werror -Wextra
 
-HEADERS = philo_one.h
+HEADERS = philo_three.h
 
 SRC =	fonctions.c\
 		fork_think.c\
 		init.c\
 		loop.c\
 		parse.c\
-		philo_one.c
+		philo_three.c
 
 OBJ = $(patsubst %.c, obj/%.o, $(SRC))
 
@@ -20,7 +20,7 @@ all: $(NAME)
 $(OBJ): ${HEADERS}
 
 $(NAME): $(OBJ)
-	@echo "\n==> Making philo one\n" 
+	@echo "\n==> Making philo three\n" 
 	@$(FLAGS) $(OBJ) -o $(NAME)
 
 obj/%.o: %.c
@@ -37,8 +37,6 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME) obj
-	@make -C ./libft fclean
-	@make -C ./ft_printf fclean
 
 re: fclean all
 

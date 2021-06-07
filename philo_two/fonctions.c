@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "philo_two.h"
 
 int	error_return(char *str)
 {
@@ -66,9 +66,9 @@ int	ft_isdigit(char *str)
 
 void	print_state(t_philo *s, char *str)
 {
-	pthread_mutex_lock(s->info->print);
+	sem_wait(s->info->print);
 	gettimeofday(&s->info->time, NULL);
 	printf("%ld		Philo number %d %s\n", ((1000000 * s->info->time.tv_sec \
 	+ s->info->time.tv_usec) / 1000) - s->info->time_start, s->nb, str);
-	pthread_mutex_unlock(s->info->print);
+	sem_post(s->info->print);
 }
